@@ -11,6 +11,7 @@ from openpyxl import Workbook
 import sqlite3
 
 app=Flask(__name__)
+app.secret_key="hospital123"
     
 @app.route("/patients")
 def patients():
