@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Add Appointment</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    </head>
+    <body>
+
+        <h1>Add Appointment</h1>
+
+        <form method="POST">
+
+            <label>Patient Name</label><br>
+            <input type="text" name="patient_name"><br><br>
+
+            <label>Doctor Name</label><br>
+            <input type="text" name="doctor_name"><br><br>
+
+            <label>Appointment Date</label><br>
+            <input type="date" name="date"><br><br>
+
+            <label>Appointment Time</label><br>
+            <input type="time" name="time"><br><br>
+
+            <label>Status</label><br>
+                <select name="status">
+                    <option value="Pending">🟡 Pending</option>
+                    <option value="Completed">🟢 Completed</option>
+                    <option value="Cancelled">🔴 Cancelled</option>
+                </select><br><br>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Edit Doctor</title>
+       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+
+        <h1>Edit Doctor</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            
+            <input type="text" name="name" value="{{ doctor[1] }}"><br><br>
+
+            <input type="text" name="specialization" value="{{ doctor[2] }}"><br><br>
+
+            <input type="text" name="phone" value="{{ doctor[3] }}"><br><br>
+
+            <input type="number" name="experience" value="{{ doctor[4] }}"><br><br>
+
+            <label>Current Photo</label><br>
+
+            {% if doctor|length>5 and doctor[5] %}
+            <img src="{{ url_for('static',filename='uploads/' + doctor[5]) }}">
+                width="100"
+                height="100"
+                style="border-radius:50%;
+            object-fit:cover;" <br><br>
+            {% else %}
+            <p>No Photo</p>
+            {% endif %}
+
+            <label>Change Photo</label><br>
+            <input type="file" name="photo" accept="image/*"><br><br>
+
+            <button type="submit">Update Doctor</button>
+
+        </form>
+    </body>
+</html>
+
+

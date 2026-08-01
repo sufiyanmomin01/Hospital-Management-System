@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hospital Management System</title>
+
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    </head>
+    <body>
+        <h1>Add Doctor</h1>
+
+        <form method="POST">
+            <label>Doctor Name</label><br>
+            <input type="text" name="name"><br><br>
+
+            <label>Specialization</label><br>
+            <input type="text" name="specialization"><br><br>
+
+            <label>Phone</label><br>
+            <input type="text" name="phone"><br><br>
+
+            <label>Experience (Years)</label><br>
+            <input type="number" name="experience"><br><br>
+
+            <button type="submit">Save Doctor</button>
+        </form>
+    </body>
+</html>

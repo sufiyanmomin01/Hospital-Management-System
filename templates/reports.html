@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+
+<h2>📊 Hospital Reports</h2>
+
+    <a href="/download_report">
+    <button>📄 Download PDF Report</button>
+</a>
+
+<a href="/download_excel">
+    <button>📊 Download Excel Report</button>
+</a>
+
+<div class="dashboard">
+
+    <div class="card">
+        <i class="fas fa-user-injured"></i>
+        <h3>Total Patients</h3>
+        <h2>{{ patient_count }}</h2>
+    </div>
+
+    <div class="card">
+        <i class="fas fa-user-doctor"></i>
+        <h3>Total Doctors</h3>
+        <h2>{{ doctor_count }}</h2>
+    </div>
+
+    <div class="card">
+        <i class="fas fa-calendar-check"></i>
+        <h3>Total Appointments</h3>
+        <h2>{{ appointment_count }}</h2>
+    </div>
+
+</div>
+
+{% endblock %}

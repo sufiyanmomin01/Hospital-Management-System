@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Banner -->
+
+<div class="hero-banner">
+
+    <div class="hero-left">
+
+        <div class="hero-logo">
+            <i class="fas fa-hospital"></i>
+        </div>
+
+        <div class="hero-text">
+            <h1>Welcome Back, Admin 👋</h1>
+            <p>Manage Patients, Doctors and Appointments from one powerful dashboard.</p>
+
+            <a href="/add_patient">
+                <button><i class="fas fa-plus"></i> Add New Patient</button>
+            </a>
+
+            <a href="/add_appointment">
+                <button><i class="fas fa-calendar-plus"></i> Book Appointment</button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="live-info">
+        <h3 id="greeting"></h3>
+        <p id="currentDate"></p>
+        <p id="currentTime"></p>
+    </div>
+
+    <div class="hero-right">
+        <div class="notification">
+
+            <i class="fas fa-bell"></i>
+                <span class="notification-count">3</span>
+
+        <div class="notification-menu">
+
+        <h4>Notifications</h4>
+
+            <p>🩺 New Appointment Booked</p>
+
+            <p>👨 New Patient Registered</p>
+
+            <p>✅ Report Generated</p>
+
+    </div>
+
+</div>
+
+        <i class="fas fa-hospital-alt"></i>
+    </div>
+
+</div>
+
+<div class="dashboard">
+
+    <div class="card">
+        <i class="fas fa-user-doctor"></i>
+        <div>
+            <h3>Active Doctors</h3>
+            <h2>{{ doctor_count }}</h2>
+        </div>
+    </div>
+
+
+</div>
+<div class="system-status-card">
+
+    <h3>🖥️ System Status</h3>
+
+    <h2 class="online-status">🟢 Online</h2>
+
+    <p>Server Running Successfully</p>
+
+    <hr>
+
+    <p>💾 Database Connected</p>
+
+    <p>🔐 Security Active</p>
+
+    <p>⚡ Flask Running</p>
+
+</div>
+
+<!-- Dashboard Cards -->
+
+<div class="dashboard">
+
+    <div class="card patient-card">
+        <div class="card-icon">
+            <i class="fas fa-user-injured"></i>
+        </div>
+
+        <div class="card-info">
+            <h3>Total Patients</h3>
+            <h2>{{ patient_count }}</h2>
+        </div>
+    </div>
+
+    <div class="card doctor-card">
+        <div class="card-icon">
+            <i class="fas fa-user-doctor"></i>
+        </div>
+
+        <div class="card-info">
+            <h3>Total Doctors</h3>
+            <h2>{{ doctor_count }}</h2>
+        </div>
+    </div>
+
+    <div class="card appointment-card">
+        <div class="card-icon">
+            <i class="fas fa-calendar-check"></i>
+        </div>
+
+        <div class="card-info">
+            <h3>Total Appointments</h3>
+            <h2>{{ appointment_count }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="chart-card">
+
+    <h2>📊 Hospital Analytics</h2>
+
+    <canvas id="hospitalChart" width="400" height="400"></canvas>
+
+</div>
+
+<div class="recent-table">
+
+    <h2>🕒 Recent Appointments</h2>
+
+    <table>
+
+        <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+
+        {% for appointment in recent_appointments %}
+
+        <tr>
+            <td>{{ appointment[0] }}</td>
+            <td>{{ appointment[1] }}</td>
+            <td>{{ appointment[2] }}</td>
+            <td>{{ appointment[3] }}</td>
+            <td>
+                {% if appointment[4] == "Pending" %}
+                <span class="pending">🟡 Pending</span>
+                {% elif appointment[4] == "Completed" %}
+                <span class="completed">🟢 Completed</span>
+                {% elif appointment[4] == "Cancelled" %}
+                <span class="cancelled">🔴 Cancelled</span>
+                {% else %}
+                {{ appointment[4] }}
+                {% endif %}
+
+</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<!-- Quick Actions -->
+
+<div class="quick-actions">
+
+    <a href="/patients"><button>👨 Patients</button></a>
+
+    <a href="/doctors"><button>👨‍⚕️ Doctors</button></a>
+
+    <a href="/appointments"><button>📅 Appointments</button></a>
+
+    <a href="/add_doctor"><button>➕ Add Doctor</button></a>
+
+    <a href="/add_appointment"><button>🩺 Add Appointment</button></a>
+
+</div>
+
+<script>
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("currentDate").innerHTML =
+    "📅 " + now.toDateString();
+
+    document.getElementById("currentTime").innerHTML =
+    "⏰ " + now.toLocaleTimeString();
+
+    let hour = now.getHours();
+
+    let msg = "Good Evening 🌙";
+
+    if(hour < 12){
+        msg = "Good Morning ☀️";
+    }
+    else if(hour < 17){
+        msg = "Good Afternoon 🌤️";
+    }
+
+    document.getElementById("greeting").innerHTML = msg + ", Sufiyan";
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+const ctx = document.getElementById("hospitalChart");
+
+if(ctx){
+
+new Chart(ctx,{
+type:"doughnut",
+
+data:{
+labels:["Patients","Doctors","Appointments"],
+
+datasets:[{
+
+data:[
+{{patient_count}},
+{{doctor_count}},
+{{appointment_count}}
+],
+
+backgroundColor:[
+"#2563eb",
+"#22c55e",
+"#7c3aed"
+]
+
+}]
+},
+
+options:{
+responsive:true,
+plugins:{
+legend:{
+position:"bottom"
+}
+}
+}
+
+});
+
+}
+
+</script>
+
+{% endblock %}

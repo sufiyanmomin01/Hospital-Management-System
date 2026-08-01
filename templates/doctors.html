@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+Doctors
+{% endblock %}
+
+{% block content %}
+
+<h2>Doctors List</h2>
+
+<a href="/add_doctor">
+    <button>➕ Add New Doctor</button>
+</a>
+
+<input type="text" id="doctorSearch" class="search-box" placeholder="🔍 Search Doctor...">
+
+<table class="patient-table" id="doctorTable">
+    <tr>
+        <th>ID</th>
+        <th>Photo</th>
+        <th>Doctor Name</th>
+        <th>Specialization</th>
+        <th>Phone</th>
+        <th>Experience</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+
+    {% for doctor in doctors %}
+    <tr>
+        <td>{{ doctor[0] }}</td>
+        <td>
+        {% if doctor[5] %}
+            <img src="{{ url_for('static', filename='uploads/' + doctor[5]) }}"
+                width="60"
+                height="60"
+                style="border-radius:50%; object-fit:cover;">
+        {% else %}
+            No Photo
+        {% endif %}
+</td>
+        <td>{{ doctor[1] }}</td>
+        <td>{{ doctor[2] }}</td>
+        <td>{{ doctor[3] }}</td>
+        <td>{{ doctor[4] }}</td>
+
+        <td>
+            <a href="/edit_doctor/{{ doctor[0] }}">
+                <button class="edit-btn">✏ Edit</button>
+            </a>
+        </td>
+
+        <td>
+            <a href="/delete_doctor/{{ doctor[0] }}"
+               onclick="return confirm('Are you sure you want to delete this doctor?')">
+                <button class="delete-btn">🗑 Delete</button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+document.getElementById("doctorSearch").addEventListener("keyup", function () {
+
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#doctorTable tr");
+
+    for (let i = 1; i < rows.length; i++) {
+
+        let text = rows[i].innerText.toLowerCase();
+
+        if (text.includes(filter)) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+
+});
+</script>
+
+{% endblock %}
